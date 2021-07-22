@@ -4,6 +4,8 @@
     <Input id="txtinput1" type="text" :value="min_t_corrido"></Input>
     <label>Maximo tempo corrido:</label>
     <Input id="txtinput2" type="text" :value="max_t_corrido"></Input>
+    <label>total de gols:</label>
+    <Input id="txtinput4" type="text" :value="total_gols"></Input>
     <base-button block type="success" @click="post_live_game()"
       >LiveGame!</base-button
     >
@@ -38,6 +40,7 @@ export default {
       items: [],
       min_t_corrido: 0,
       max_t_corrido: 99,
+      total_gols: ''
     };
   },
   name: "home",
@@ -47,7 +50,6 @@ export default {
       this.polling = setInterval(() => {
         this.post_live_game();
         try {
-          // console.log("items " + this.items.length);
           if (this.items.length > 0) {
             // alert("Atencao oportunidade");
           }
@@ -58,15 +60,16 @@ export default {
     post_live_game() {
       this.min_t_corrido = document.getElementById('txtinput1').value
       this.max_t_corrido = document.getElementById('txtinput2').value
-
+      this.total_gols = document.getElementById('txtinput4').value
       var axios = require("axios");
 
       var params = {
-        url: "http://127.0.0.1:3000/live_games/",
+        url: "https://apilivegames.herokuapp.com/live_games/",
         method: "post",
         data: {
           min_inicio: this.min_t_corrido,
           min_fim: this.max_t_corrido,
+	  totalgols: this.total_gols
         },
       };
       axios(params)
